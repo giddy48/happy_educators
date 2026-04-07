@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
@@ -464,3 +465,8 @@ def bulk_report_card_pdf(request, class_id):
 
     doc.build(elements)
     return response
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
