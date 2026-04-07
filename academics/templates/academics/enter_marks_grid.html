@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Enter Marks Grid</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    Excel Marks Entry
+</div>
+
+<div class="container">
+
+<form method="POST">
+    {% csrf_token %}
+
+    <table>
+        <tr>
+            <th>Student</th>
+            {% for subject in subjects %}
+                <th>{{ subject.name }}</th>
+            {% endfor %}
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+
+            {% for subject in subjects %}
+                <td>
+                    <input type="number"
+                           name="score_{{ student.id }}_{{ subject.id }}"
+                           min="0" max="100">
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button class="btn" type="submit">Save All Marks</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

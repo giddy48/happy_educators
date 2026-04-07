@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School Dashboard</title>
+</head>
+<body>
+
+<h1>🏫 Happy Educators Dashboard</h1>
+
+<hr>
+
+<h3>📊 System Overview</h3>
+
+<ul>
+    <li>👨‍🎓 Total Students: {{ total_students }}</li>
+    <li>📝 Total Marks Entries: {{ total_marks }}</li>
+    <li>🏫 Total Classes: {{ total_classes }}</li>
+</ul>
+
+<hr>
+
+<h3>🏆 Top Student</h3>
+
+{% if top_student %}
+<p>
+    <b>{{ top_student.student.name }}</b><br>
+    Total Score: {{ top_student.total }}
+</p>
+{% else %}
+<p>No data yet</p>
+{% endif %}
+
+<hr>
+
+<h3>🚀 Quick Actions</h3>
+
+<ul>
+    <li><a href="/academics/results/">View Results</a></li>
+    <li><a href="/academics/analytics/subjects/">Subject Analytics</a></li>
+    <li><a href="/academics/analytics/charts/">Charts</a></li>
+</ul>
+
+</body>
+</html>

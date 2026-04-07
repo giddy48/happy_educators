@@ -1,0 +1,64 @@
+@login_required
+def results_view(request):
+
+    user = request.user
+
+    # 👇 ROLE CHECK
+    role = user.profile.role
+
+    # =========================
+    # STUDENT VIEW (ONLY OWN DATA)
+    # =========================
+    if role == "student":
+        student = user.student  # linked student profile
+
+        marks = Mark.objects.filter(student=student)
+
+        total = sum(m.score for m in marks)
+        count = marks.count()
+
+        avg = total / count if count > 0 else 0
+
+        result = [{
+            "student": student,
+            "total": total,
+            "average": round(avg, 2),
+            "grade": "A" if avg >= 70 else "B" if avg >= 50 else "C",
+            "count": count
+        }]
+
+        return render(request, "academics/results.html", {
+            "results": result
+        })
+
+    # =========================
+    # TEACHER / ADMIN VIEW (ALL STUDENTS)
+    # =========================
+    elif role in ["teacher", "admin"]:
+
+        students = Student.objects.all()
+        results = []
+
+        for student in students:
+            marks = Mark.objects.filter(student=student)
+
+            total = sum(m.score for m in marks)
+            count = marks.count()
+            avg = total / count if count > 0 else 0
+
+            results.append({
+                "student": student,
+                "total": total,
+                "average": round(avg, 2),
+                "grade": "A" if avg >= 70 else "B" if avg >= 50 else "C",
+                "count": count
+            })
+
+        return render(request, "academics/results.html", {
+            "results": results
+        })
+
+    # =========================
+    # BLOCK ALL OTHERS
+    # =========================
+    return HttpResponseForbidden("❌ Not allowed")

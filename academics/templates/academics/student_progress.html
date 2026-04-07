@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Progress</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h2>📈 Student Progress Graph</h2>
+<h3>{{ student.name }} ({{ student.class_name }})</h3>
+
+<canvas id="progressChart" width="400" height="200"></canvas>
+
+<script>
+const ctx = document.getElementById('progressChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Performance Trend',
+            data: {{ scores|safe }},
+            fill: false,
+            tension: 0.3
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

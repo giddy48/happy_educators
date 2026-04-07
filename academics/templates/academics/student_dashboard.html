@@ -1,0 +1,7 @@
+<h1>Student Dashboard 🎓</h1>
+
+<ul>
+    <a href="{% url 'results' %}" class="btn">My Results</a>
+    <li><a href="{% url 'student_detail' request.user.id %}">My Profile</a></li>
+    <a href="{% url 'class_list' %}" class="btn">My Classes</a>
+</ul>

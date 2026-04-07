@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subject Analytics</title>
+</head>
+<body>
+
+<h2>📊 Subject Performance Analytics</h2>
+
+{% if best %}
+<p>🏆 Best Subject: <b>{{ best.subject }}</b> ({{ best.average }})</p>
+{% endif %}
+
+{% if worst %}
+<p>⚠️ Weakest Subject: <b>{{ worst.subject }}</b> ({{ worst.average }})</p>
+{% endif %}
+
+<br>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Subject</th>
+        <th>Average Score</th>
+        <th>Entries</th>
+    </tr>
+
+    {% for r in results %}
+    <tr>
+        <td>{{ r.subject }}</td>
+        <td>{{ r.average }}</td>
+        <td>{{ r.count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

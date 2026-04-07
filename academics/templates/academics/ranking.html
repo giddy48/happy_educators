@@ -1,0 +1,20 @@
+<h1>Class Ranking 🏆</h1>
+
+<table border="1">
+    <tr>
+        <th>Rank</th>
+        <th>Student</th>
+        <th>Total Score</th>
+    </tr>
+
+    {% for r in rankings %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ r.student__username }}</td>
+        <td>{{ r.total_score }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="{% url 'teacher-dashboard' %}">Back</a>

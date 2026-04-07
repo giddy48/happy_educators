@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+
+        h2 { text-align: center; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .top1 { background: gold; }
+        .top2 { background: silver; }
+        .top3 { background: #cd7f32; }
+    </style>
+</head>
+<body>
+
+<h2>Class Dashboard: {{ class.name }}</h2>
+
+<table>
+    <tr>
+        <th>Rank</th>
+        <th>Student</th>
+        <th>Total Marks</th>
+        <th>Average</th>
+    </tr>
+
+    {% for item in data %}
+    <tr class="
+        {% if item.rank == 1 %}top1{% endif %}
+        {% if item.rank == 2 %}top2{% endif %}
+        {% if item.rank == 3 %}top3{% endif %}
+    ">
+        <td>{{ item.rank }}</td>
+        <td>{{ item.student.name }}</td>
+        <td>{{ item.total }}</td>
+        <td>{{ item.average|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

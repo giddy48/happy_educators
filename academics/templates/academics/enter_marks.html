@@ -1,0 +1,21 @@
+<form method="POST">
+    {% csrf_token %}
+
+    <select name="class_id">
+        {% for c in classes %}
+            <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="subject_id">
+        {% for s in subjects %}
+            <option value="{{ s.id }}">{{ s.name }}</option>
+        {% endfor %}
+    </select>
+
+    {% for student in students %}
+        <input type="number" name="mark_{{ student.id }}" placeholder="{{ student.name }}">
+    {% endfor %}
+
+    <button type="submit">Save</button>
+</form>

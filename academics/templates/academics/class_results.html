@@ -1,0 +1,93 @@
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
+from .models import Student, Subject, Mark, SchoolClass, Exam
+
+
+def class_results(request):
+    classes = SchoolClass.objects.all()
+    subjects = Subject.objects.all()
+    exams = Exam.objects.all()
+
+    students = None
+    selected_class = None
+    results = []
+    top_students = []
+    top_improved = []
+    current_exam = None
+
+    if request.method == "POST":
+        class_id = request.POST.get("class_id")
+        exam_id = request.POST.get("exam_id")
+
+        selected_class = get_object_or_404(SchoolClass, id=class_id)
+        current_exam = get_object_or_404(Exam, id=exam_id)
+
+        students = Student.objects.filter(student_class=selected_class)
+
+        # SAVE MARKS
+        for student in students:
+            for subject in subjects:
+                score = request.POST.get(f"{student.id}_{subject.id}")
+                if score:
+                    Mark.objects.update_or_create(
+                        student=student,
+                        subject=subject,
+                        exam=current_exam,
+                        defaults={"score": score},
+                    )
+
+        # CURRENT RESULTS
+        for student in students:
+            marks = Mark.objects.filter(student=student, exam=current_exam)
+            avg = marks.aggregate(Avg("score"))["score__avg"] or 0
+
+            results.append({
+                "student": student,
+                "average": avg,
+                "grade": get_grade(avg),
+            })
+
+        results.sort(key=lambda x: x["average"], reverse=True)
+
+        for i, r in enumerate(results, start=1):
+            r["position"] = i
+
+        top_students = results[:10]
+
+        # MOST IMPROVED
+        previous_exam = Exam.objects.exclude(id=exam_id).order_by("-id").first()
+
+        if previous_exam:
+            improvements = []
+
+            for student in students:
+                current_avg = Mark.objects.filter(
+                    student=student, exam=current_exam
+                ).aggregate(Avg("score"))["score__avg"] or 0
+
+                previous_avg = Mark.objects.filter(
+                    student=student, exam=previous_exam
+                ).aggregate(Avg("score"))["score__avg"] or 0
+
+                improvements.append({
+                    "student": student,
+                    "improvement": current_avg - previous_avg,
+                })
+
+            top_improved = sorted(
+                improvements,
+                key=lambda x: x["improvement"],
+                reverse=True,
+            )[:10]
+
+    return render(request, "academics/class_results.html", {
+        "classes": classes,
+        "subjects": subjects,
+        "exams": exams,
+        "students": students,
+        "selected_class": selected_class,
+        "results": results,
+        "top_students": top_students,
+        "top_improved": top_improved,
+        "current_exam": current_exam,
+    })

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body { font-family: Arial; margin: 0; background: #f4f6f9; }
+
+        .navbar {
+            background: #2c3e50;
+            padding: 15px;
+            color: white;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>📚 School Management System</h2>
+
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/academics/students/">Students</a>
+    <a href="/academics/enter-marks/">Enter Marks</a>
+    <a href="/academics/results/">Results</a>
+    <a href="/logout/">Logout</a>
+</div>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

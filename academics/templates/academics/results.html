@@ -1,0 +1,44 @@
+<h2>Class Results</h2>
+
+<form method="GET">
+    <select name="class_id">
+        {% for c in classes %}
+            <option value="{{ c.id }}"
+                {% if selected_class and selected_class.id == c.id %}selected{% endif %}>
+                {{ c.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">View</button>
+</form>
+
+<hr>
+
+{% if students_data %}
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Rank</th>
+        <th>Student</th>
+        <th>Total Marks</th>
+        <th>Average</th>
+        <th>Subjects Count</th>
+        <th>Grade</th>
+    </tr>
+
+    {% for item in students_data %}
+    <tr>
+        <td>{{ item.rank }}</td>
+        <td>{{ item.student.name }}</td>
+        <td>{{ item.total }}</td>
+        <td>{{ item.average }}</td>
+        <td>{{ item.count }}</td>
+        <td>{{ item.grade }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% else %}
+<p>Select a class to view results.</p>
+{% endif %}

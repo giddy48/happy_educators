@@ -1,0 +1,26 @@
+{% extends "academics/base.html" %}
+
+{% block content %}
+
+<h2>📊 Dashboard Overview</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>👨‍🎓 Students</h3>
+        <p>{{ total_students|default:"0" }}</p>
+    </div>
+
+    <div class="card">
+        <h3>📝 Marks Entries</h3>
+        <p>{{ total_marks|default:"0" }}</p>
+    </div>
+
+    <div class="card">
+        <h3>🏫 Classes</h3>
+        <p>{{ total_classes|default:"0" }}</p>
+    </div>
+
+</div>
+
+{% endblock %}

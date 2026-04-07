@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Report Card</title>
+</head>
+<body>
+
+<h2>📄 Student Report Card</h2>
+
+<h3>{{ student.name }}</h3>
+<p>Class: {{ student.class_name }}</p>
+<p>Position: {{ position }}</p>
+
+<hr>
+
+<h3>📊 Performance Summary</h3>
+<p>Total Marks: {{ total }}</p>
+<p>Average: {{ average }}</p>
+<p>Grade: <b>{{ grade }}</b></p>
+
+<hr>
+
+<h3>📚 Subject Breakdown</h3>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Subject</th>
+        <th>Score</th>
+    </tr>
+
+    {% for s in subjects %}
+    <tr>
+        <td>{{ s.subject }}</td>
+        <td>{{ s.score }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
+<br><br>
+
+<a href="/academics/student/{{ student.id }}/pdf/">
+    <button>⬇️ Download PDF Report</button>
+</a>
+<br><br>
+
+<a href="/academics/student/{{ student.id }}/progress/">
+    <button>📈 View Progress Graph</button>
+</a>
