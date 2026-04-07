@@ -47,25 +47,21 @@ def home(request):
     return redirect("dashboard" if request.user.is_authenticated else "login")
 
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
 def login_view(request):
     if request.method == "POST":
-        user = authenticate(
-            request,
-            username=request.POST.get("username"),
-            password=request.POST.get("password"),
-        )
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
         if user:
             login(request, user)
             return redirect("dashboard")
 
     return render(request, "academics/login.html")
-
-
-def logout_view(request):
-    logout(request)
-    return redirect("login")
-
-
 # ---------------------------------------------------
 # DASHBOARD
 # ---------------------------------------------------
