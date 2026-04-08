@@ -14,6 +14,7 @@ urlpatterns = [
     path('report-card/bulk/<int:class_id>/', views.bulk_report_card_pdf, name='bulk_report_card_pdf'),
     path('report-card/<int:class_id>/<int:student_id>/', views.report_card_pdf, name='report_card_pdf'),
     path('bulk-report/<int:class_id>/', views.bulk_report_card_pdf, name='bulk_report_card_pdf'),
+    path('', views.login_view, name='login')
 ]
 
 
