@@ -301,64 +301,7 @@ def class_list(request):
 # ---------------------------------------------------
 # BULK PDF REPORT CARDS
 # ---------------------------------------------------
-def bulk_report_card_pdf(request, class_id):
-    school_class = SchoolClass.objects.get(id=class_id)
-    students = Student.objects.all()
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{school_class.name}_bulk_report_cards.pdf"'
-
-    doc = SimpleDocTemplate(response)
-    styles = getSampleStyleSheet()
-    elements = []
-
-    elements.append(Paragraph(f"{school_class.name} - BULK REPORT CARDS", styles['Title']))
-    elements.append(Spacer(1, 12))
-
-    for student in students:
-        marks = Mark.objects.filter(student=student, school_class=school_class)
-
-        if not marks.exists():
-            continue
-
-        total = sum(m.score for m in marks)
-        count = marks.count()
-        average = total / count if count > 0 else 0
-
-        elements.append(Paragraph(f"Student: {student.name}", styles['Heading2']))
-        elements.append(Paragraph(
-            f"Total: {total} | Average: {round(average,2)} | Grade: {get_grade(average)}",
-            styles['Normal']
-        ))
-        elements.append(Spacer(1, 8))
-
-        data = [["Subject", "Score", "Grade"]]
-
-        for m in marks:
-            data.append([
-                m.subject.name,
-                m.score,
-                get_grade(m.score)
-            ])
-
-        data.append(["TOTAL", total, ""])
-        data.append(["AVERAGE", round(average, 2), get_grade(average)])
-
-        table = Table(data)
-
-        table.setStyle(TableStyle([
-            ('BACKGROUND', (0,0), (-1,0), colors.grey),
-            ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
-            ('GRID', (0,0), (-1,-1), 0.5, colors.black),
-            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-            ('BACKGROUND', (0,1), (-1,-1), colors.beige),
-        ]))
-
-        elements.append(table)
-        elements.append(PageBreak())
-
-    doc.build(elements)
-    return response
 def report_card_pdf(request, class_id, student_id):
     student = Student.objects.get(id=student_id)
     school_class = SchoolClass.objects.get(id=class_id)
