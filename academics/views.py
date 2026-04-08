@@ -465,14 +465,10 @@ def bulk_report_card_pdf(request, class_id):
 
     doc.build(elements)
     return response
-from django.contrib.auth import logout
 
-def logout_view(request):
-    logout(request)
-    return redirect("login")
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # make sure you have a login URL
+    return redirect('login') 
