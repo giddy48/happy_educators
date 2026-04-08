@@ -470,3 +470,9 @@ from django.contrib.auth import logout
 def logout_view(request):
     logout(request)
     return redirect("login")
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # make sure you have a login URL
